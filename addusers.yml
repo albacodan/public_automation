@@ -1,0 +1,23 @@
+---
+- name: Add usuarios
+  hosts: clientes
+  become: true
+  tasks:
+    - name: Add usuario 1
+      user:
+        name: acosta
+        state: present
+        groups:
+          - admin
+    - name: Add usuario 2
+      user:
+        name: daa
+        state: present
+        groups:
+          - admin
+    - name: Add usuario 3
+      user:
+        name: dalbarran
+        state: present
+        groups:
+          - admin

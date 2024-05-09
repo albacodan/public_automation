@@ -1,0 +1,21 @@
+pipeline {
+    agent {
+        label 'ansible'
+    }
+
+    stages {
+        stage('Ejecutar Playbook creacion de grupos') {
+            steps {
+                // Ejecutar el playbook para crear los diferentes grupos
+                sh 'ansible-playbook -i hosts.yml addgroups.yml'
+            }
+        }
+
+        stage('Ejecutar Playbook creacion de usuarios de forma automatica con el nombre de los equipos') {
+            steps {
+                // Ejecucion del playbook de creación automática de usuarios
+                sh 'ansible-playbook -i hosts.yml addautousers.yml'
+            }
+        }
+    }
+}

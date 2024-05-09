@@ -1,0 +1,19 @@
+---
+- name: Crear grupos en clientes
+  hosts: clientes
+  become: true
+  tasks:
+    - name: Crear grupo admin
+      group:
+        name: admin
+        state: present
+
+    - name: Crear grupo developers
+      group:
+        name: developers
+        state: present
+
+    - name: Crear grupo finance
+      group:
+        name: finance
+        state: present

@@ -1,0 +1,9 @@
+---
+- name: Eliminar usuario en cliente
+  hosts: cliente_especifico
+  become: true
+  tasks:
+    - name: Eliminar usuario
+      user:
+        name: usuario_a_eliminar
+        state: absent

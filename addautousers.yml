@@ -1,0 +1,11 @@
+---
+- name: Add usuarios por cliente
+  hosts: clientes
+  become: true
+  tasks:
+    - name: Crear usuario por cliente
+      user:
+        name: "{{ inventory_hostname }}_user"
+        state: present
+        groups:
+          - admin
