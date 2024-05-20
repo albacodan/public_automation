@@ -7,7 +7,7 @@ pipeline {
         stage('Ejecutar Playbook creacion de grupos') {
             steps {
                 dir('/home/ubuntu/jenkins-agent/workspace/PRUEBAS/prueba_usuarios/public_automation/gestionusers/') {
-                    sh 'ansible-playbook -i hosts.yml grupo.yml'
+                    sh 'ansible-playbook -i hosts.yml addautousers.yml'
                 }
                 print('Grupo creado correctamente!')
             }
