@@ -1,0 +1,9 @@
+---
+- name: Crear grupos en clientes
+  hosts: clientes
+  become: true
+  tasks:
+    - name: Crear grupo prueba
+      group:
+        name: grupojenkins
+        state: present
