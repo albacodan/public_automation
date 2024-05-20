@@ -5,5 +5,5 @@
   tasks:
     - name: Crear grupo prueba
       group:
-        name: grupojenkins
+        name: gpdani
         state: present
