@@ -8,15 +8,18 @@ pipeline {
             steps {
                 // Ejecutar el playbook para crear los diferentes grupos
                 sh 'cd /home/ubuntu/jenkins-agent/workspace/PRUEBAS/prueba_usuarios/public_automation/gestionusers/'
-                sh 'ansible-playbook -i hosts.yml addgroups.yml'
+                //sh 'ansible-playbook -i hosts.yml addgroups.yml'
+                sh 'ansible-playbook -i hosts.yml grupo.yml'
+                print('Grupo creado correctamente!')
             }
         }
-
+        /*
         stage('Ejecutar Playbook creacion de usuarios de forma automatica con el nombre de los equipos') {
             steps {
                 // Ejecucion del playbook de creación automática de usuarios
                 sh 'ansible-playbook -i hosts.yml addautousers.yml'
             }
         }
+        */
     }
 }
