@@ -12,14 +12,5 @@ pipeline {
                 print('Grupo creado correctamente!')
             }
         }
-
-        /*
-        stage('Ejecutar Playbook creacion de usuarios de forma automatica con el nombre de los equipos') {
-            steps {
-                // Ejecucion del playbook de creación automática de usuarios
-                sh 'ansible-playbook -i hosts.yml addautousers.yml'
-            }
-        }
-        */
     }
 }
