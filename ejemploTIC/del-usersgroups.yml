@@ -1,0 +1,28 @@
+---
+- name: Eliminar usuarios y grupos configurados
+  hosts: all
+  become: true
+  tasks:
+    - name: Eliminar usuario con el nombre del inventario
+      ansible.builtin.user:
+        name: "{{ inventory_hostname }}"
+        state: absent
+        remove: yes
+
+    - name: Eliminar archivo de sudoers para 'profesores'
+      ansible.builtin.file:
+        path: /etc/sudoers.d/profesores
+        state: absent
+      when: "'profesores' in group_names"
+
+    - name: Eliminar grupo 'profesores'
+      ansible.builtin.group:
+        name: profesores
+        state: absent
+      when: "'profesores' in group_names"
+
+    - name: Eliminar grupo 'alumnos'
+      ansible.builtin.group:
+        name: alumnos
+        state: absent
+      when: "'alumnos' in group_names"

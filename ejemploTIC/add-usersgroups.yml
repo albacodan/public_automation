@@ -3,11 +3,6 @@
   hosts: all
   become: true
   tasks:
-    - name: Crear grupo 'grupo_a_eliminar'
-      ansible.builtin.group:
-        name: grupo_a_eliminar
-        state: present
-
     - name: Crear usuario con el nombre del inventario
       ansible.builtin.user:
         name: "{{ inventory_hostname }}"
@@ -46,8 +41,3 @@
             name: "{{ inventory_hostname }}"
             groups: alumnos
             append: yes
-
-    - name: Eliminar grupo 'grupo_a_eliminar'
-      ansible.builtin.group:
-        name: grupo_a_eliminar
-        state: absent
