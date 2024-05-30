@@ -7,7 +7,7 @@ pipeline {
         stage('Creación de usuarios') {
             steps {
                 // Ejecuta el playbook de Ansible
-                sh 'ansible-playbook -i inventory.ini del-usersgroups.yml'
+                sh 'ansible-playbook -i inventory.yml del-usersgroups.yml'
             }
         }
     }
