@@ -7,7 +7,7 @@ pipeline {
         stage('Creación de usuarios') {
             steps {
                 // Ejecuta el playbook de Ansible
-                dir('/home/ubuntu/jenkins-agent/workspace/TFG-DAA/ejemploTIC/') {
+                dir('/home/ubuntu/jenkins-agent/workspace/TFG-DAA/des_usuariosGrupos/ejemploTIC/') {
                     sh 'ansible-playbook -i inventory.yml add-usersgroups.yml'
                 }
             }
