@@ -1,7 +1,7 @@
 ---
 - name: Configuración de usuarios y grupos
   hosts: all
-  become: true
+  become: false
   tasks:
     - name: Crear usuario con el nombre del inventario
       ansible.builtin.user:

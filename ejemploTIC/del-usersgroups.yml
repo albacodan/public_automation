@@ -1,7 +1,7 @@
 ---
 - name: Eliminar usuarios y grupos configurados
   hosts: all
-  become: true
+  become: false
   tasks:
     - name: Eliminar usuario con el nombre del inventario
       ansible.builtin.user:
