@@ -1,0 +1,23 @@
+pipeline {
+    agent {
+        label 'ansible'
+    }
+    
+    stages { 
+        stage('Creación de usuarios') {
+            steps {
+                // Ejecuta el playbook de Ansible
+                sh 'ansible-playbook -i inventory.ini add-usersgroups.yml'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'El playbook se ejecutó correctamente.'
+        }
+        failure {
+            echo 'Error al ejecutar el playbook.'
+        }
+    }
+}
