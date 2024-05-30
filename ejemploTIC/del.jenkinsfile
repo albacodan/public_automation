@@ -4,7 +4,7 @@ pipeline {
     }
     
     stages { 
-        stage('Creación de usuarios') {
+        stage('Eliminar usuarios y grupos') {
             steps {
                 // Ejecuta el playbook de Ansible
                 sh 'ansible-playbook -i inventory.yml del-usersgroups.yml'

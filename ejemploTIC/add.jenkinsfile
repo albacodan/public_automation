@@ -4,7 +4,7 @@ pipeline {
     }
     
     stages { 
-        stage('Creación de usuarios') {
+        stage('Creación de usuarios y grupos') {
             steps {
                 // Ejecuta el playbook de Ansible
                 dir('/home/ubuntu/jenkins-agent/workspace/TFG-DAA/des_usuariosGrupos/ejemploTIC/') {
