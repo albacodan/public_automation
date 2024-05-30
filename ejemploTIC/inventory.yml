@@ -3,15 +3,12 @@ all:
     profesor:
       ansible_host: 44.193.27.35
       ansible_user: ubuntu
-      username: profesor
     alumno1:
       ansible_host: 34.196.22.0
       ansible_user: ubuntu
-      username: alumno1
     alumno2:
       ansible_host: 54.205.129.145
       ansible_user: ubuntu
-      username: alumno2
   children:
     professors:
       hosts:
