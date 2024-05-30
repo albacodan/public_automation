@@ -1,0 +1,53 @@
+---
+- name: Configuración de usuarios y grupos
+  hosts: all
+  become: true
+  tasks:
+    - name: Crear grupo 'grupo_a_eliminar'
+      ansible.builtin.group:
+        name: grupo_a_eliminar
+        state: present
+
+    - name: Crear usuario con el nombre del inventario
+      ansible.builtin.user:
+        name: "{{ inventory_hostname }}"
+        state: present
+
+    - name: Configurar grupo 'profesores' y permisos
+      when: "'profesores' in group_names"
+      block:
+        - name: Crear grupo 'profesores'
+          ansible.builtin.group:
+            name: profesores
+            state: present
+
+        - name: Añadir usuario al grupo 'profesores'
+          ansible.builtin.user:
+            name: "{{ inventory_hostname }}"
+            groups: profesores
+            append: yes
+
+        - name: Otorgar permisos de administrador al grupo 'profesores'
+          ansible.builtin.copy:
+            dest: /etc/sudoers.d/profesores
+            content: "%profesores ALL=(ALL) NOPASSWD: ALL"
+            mode: '0440'
+
+    - name: Configurar grupo 'alumnos' y permisos
+      when: "'alumnos' in group_names"
+      block:
+        - name: Crear grupo 'alumnos'
+          ansible.builtin.group:
+            name: alumnos
+            state: present
+
+        - name: Añadir usuario al grupo 'alumnos'
+          ansible.builtin.user:
+            name: "{{ inventory_hostname }}"
+            groups: alumnos
+            append: yes
+
+    - name: Eliminar grupo 'grupo_a_eliminar'
+      ansible.builtin.group:
+        name: grupo_a_eliminar
+        state: absent

@@ -10,10 +10,10 @@ all:
       ansible_host: 54.205.129.145
       ansible_user: ubuntu
   children:
-    professors:
+    profesores:
       hosts:
-        professor:
-    students:
+        profesor:
+    alumnos:
       hosts:
-        student1:
-        student2:
+        alumno1:
+        alumno2:
