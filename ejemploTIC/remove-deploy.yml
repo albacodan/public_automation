@@ -1,0 +1,31 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: Stop and remove all containers
+      community.docker.docker_container:
+        name: "{{ item }}"
+        state: absent
+      loop:
+        - portainer
+        - watchtower
+        - wordpress
+        - db
+
+    - name: Remove Docker Compose
+      apt:
+        name: docker-compose
+        state: absent
+
+    - name: Remove Docker
+      apt:
+        name: docker.io
+        state: absent
+
+    - name: Remove Docker volumes
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/docker/volumes/portainer_data
+        - /var/lib/docker/volumes/wordpress
+        - /var/lib/docker/volumes/db
