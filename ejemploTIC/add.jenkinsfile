@@ -16,7 +16,7 @@ pipeline {
             }
         }
     }
-
+    /*
     post {
         success {
             echo 'El playbook se ejecutó correctamente.'
@@ -25,4 +25,5 @@ pipeline {
             echo 'Error al ejecutar el playbook.'
         }
     }
+    */
 }
