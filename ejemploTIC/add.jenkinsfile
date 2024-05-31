@@ -13,7 +13,7 @@ pipeline {
                 }
                 */
                 sh 'pwd'
-                sh 'ansible-playbook -i inventory.yml add-usersgroups.yml'
+                sh 'ansible-playbook -i ./ejemploTIC/inventory.yml ./ejemploTIC/add-usersgroups.yml'
             }
         }
     }
