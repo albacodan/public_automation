@@ -12,6 +12,7 @@ pipeline {
                     sh 'ansible-playbook -i inventory.yml add-usersgroups.yml'
                 }
                 */
+                sh 'pwd'
                 sh 'ansible-playbook -i inventory.yml add-usersgroups.yml'
             }
         }
