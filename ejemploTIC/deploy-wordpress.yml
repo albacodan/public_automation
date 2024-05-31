@@ -1,18 +1,18 @@
 - hosts: all
   become: yes
   tasks:
-    - name: Update apt package cache
+    - name: Actualizar paqueteria Linux
       apt:
         update_cache: yes
 
-    - name: Install Docker (for Ubuntu)
+    - name: Instalar Docker en Ubuntu
       apt:
         name:
           - docker.io
           - docker-compose
         state: present
 
-    - name: Deploy Portainer
+    - name: Desplegar Portainer
       community.docker.docker_container:
         name: portainer
         image: portainer/portainer-ce
@@ -24,7 +24,7 @@
           - portainer_data:/data
         restart_policy: always
 
-    - name: Deploy Watchtower
+    - name: Desplegar Watchtower
       community.docker.docker_container:
         name: watchtower
         image: containrrr/watchtower
@@ -33,11 +33,11 @@
           - /var/run/docker.sock:/var/run/docker.sock
         restart_policy: always
 
-    - name: Create Network
+    - name: Crear una red para Wordpress
       community.docker.docker_network:
         name: wordpress
 
-    - name: Deploy Wordpress
+    - name: Desplegar Wordpress
       community.docker.docker_container:
         name: wordpress
         image: wordpress:latest
@@ -54,7 +54,7 @@
           WORDPRESS_DB_NAME: "exampledb"
         restart_policy: always
 
-    - name: Deploy MYSQL
+    - name: Desplegar MYSQL
       community.docker.docker_container:
         name: db
         image: mysql:5.7

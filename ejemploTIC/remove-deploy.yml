@@ -1,7 +1,7 @@
 - hosts: all
   become: yes
   tasks:
-    - name: Stop and remove all containers
+    - name: Parar contenedores y eliminarlos
       community.docker.docker_container:
         name: "{{ item }}"
         state: absent
@@ -11,17 +11,17 @@
         - wordpress
         - db
 
-    - name: Remove Docker Compose
+    - name: Eliminar Docker Compose
       apt:
         name: docker-compose
         state: absent
 
-    - name: Remove Docker
+    - name: Eliminar Docker
       apt:
         name: docker.io
         state: absent
 
-    - name: Remove Docker volumes
+    - name: Eliminar volumenes de Docker
       file:
         path: "{{ item }}"
         state: absent
