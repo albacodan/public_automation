@@ -6,26 +6,10 @@ pipeline {
     stages { 
         stage('Creación de usuarios y grupos') {
             steps {
-                // Ejecuta el playbook de Ansible
-                /*
-                dir('/home/ubuntu/jenkins-agent/workspace/TFG-DAA/des_usuariosGrupos/ejemploTIC/') {
-                    sh 'ansible-playbook -i inventory.yml add-usersgroups.yml'
-                }
-                */
                 sh 'pwd'
                 sh 'ls -artl'
                 sh 'ansible-playbook -i ejemploTIC/inventory.yml ejemploTIC/add-usersgroups.yml'
             }
         }
     }
-    /*
-    post {
-        success {
-            echo 'El playbook se ejecutó correctamente.'
-        }
-        failure {
-            echo 'Error al ejecutar el playbook.'
-        }
-    }
-    */
 }
