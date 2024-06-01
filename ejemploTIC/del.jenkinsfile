@@ -7,11 +7,18 @@ pipeline {
         stage('Eliminar usuarios y grupos') {
             steps {
                 // Ejecuta el playbook de Ansible
-                sh 'ansible-playbook -i inventory.yml del-usersgroups.yml'
+                /*
+                dir('/home/ubuntu/jenkins-agent/workspace/TFG-DAA/des_usuariosGrupos/ejemploTIC/') {
+                    sh 'ansible-playbook -i inventory.yml add-usersgroups.yml'
+                }
+                */
+                sh 'pwd'
+                sh 'ls -artl'
+                sh 'ansible-playbook -i ejemploTIC/inventory.yml ejemploTIC/del-usersgroups.yml'
             }
         }
     }
-
+    /*
     post {
         success {
             echo 'El playbook se ejecutó correctamente.'
@@ -20,4 +27,5 @@ pipeline {
             echo 'Error al ejecutar el playbook.'
         }
     }
+    */
 }
