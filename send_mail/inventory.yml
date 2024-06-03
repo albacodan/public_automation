@@ -1,0 +1,19 @@
+all:
+  hosts:
+    profesor:
+      ansible_host: 44.193.27.35
+      ansible_user: ubuntu
+    alumno1:
+      ansible_host: 34.196.22.0
+      ansible_user: ubuntu
+    alumno2:
+      ansible_host: 54.205.129.145
+      ansible_user: ubuntu
+  children:
+    profesores:
+      hosts:
+        profesor:
+    alumnos:
+      hosts:
+        alumno1:
+        alumno2:

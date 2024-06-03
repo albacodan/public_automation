@@ -1,0 +1,23 @@
+---
+- name: Extract user information and save to CSV
+  hosts: all
+  become: yes
+  tasks:
+    - name: Gather user and privilege information
+      shell: |
+        getent passwd | cut -d: -f1,7 | while IFS=: read user shell; do
+          if sudo -lU "$user" &>/dev/null; then
+            privileges="1"  # Cambiado a 1 para indicar que el usuario tiene privilegios
+          else
+            privileges="0"  # Cambiado a 0 para indicar que el usuario no tiene privilegios
+          fi
+          echo "{{ inventory_hostname }},$user,$privileges"
+        done | grep -E '^[^[:space:]]+,[^[:space:]]+,[01]$'
+      register: user_info
+
+    - name: Write user information to CSV file
+      local_action:
+        module: copy
+        content: "{{ user_info.stdout }}"
+        dest: "{{ inventory_hostname }}_user_info.csv"
+      delegate_to: localhost
