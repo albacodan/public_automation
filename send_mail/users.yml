@@ -1,9 +1,9 @@
 ---
-- name: Extract user information and save to CSV
+- name: Extraer info usuarios y pasar a CSV
   hosts: all
   become: yes
   tasks:
-    - name: Gather user and privilege information
+    - name: Extraccion usuarios y privilegios
       shell: |
         getent passwd | cut -d: -f1,7 | while IFS=: read user shell; do
           if sudo -lU "$user" &>/dev/null; then
@@ -15,7 +15,7 @@
         done | grep -E '^[^[:space:]]+,[^[:space:]]+,[01]$'
       register: user_info
 
-    - name: Write user information to CSV file
+    - name: Guardar info en archivo CSV
       local_action:
         module: copy
         content: "{{ user_info.stdout }}"
