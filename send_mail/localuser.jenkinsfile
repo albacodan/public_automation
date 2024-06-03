@@ -2,6 +2,14 @@ pipeline {
     agent {
         label 'ansible'
     }
+
+    parameters {
+        string(
+            name: 'MAIL',
+            defaultValue: 'daniel.albarranacosta@italtel.com,danielalbarranacosta610@institutodh.net',
+            description: 'List of mails separated by commas: <b>mail1,mail2</b>'
+        )
+    }
     
     stages { 
         stage('Extraccion datos usuarios to CSV') {
@@ -16,7 +24,10 @@ pipeline {
         }
         stage('Envio por mail') {
             steps {
-                sh 'python3 send_mail/sendmail.py'
+                script {
+                    def mailParam = params.MAIL
+                    sh "python3 send_mail/sendmail.py \"${mailParam}\""
+                }
             }
         }
     }
