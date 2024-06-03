@@ -10,7 +10,7 @@ from_password = "etzw zrag hbuf muik"
 to_email = "danielalbarranacosta610@institutodh.net"
 
 # Leer el HTML combinado
-with open("combined_tables.html", "r") as file:
+with open("send_mail/combined_tables.html", "r") as file:
     html_content = file.read()
 
 # Crear el mensaje de correo electrónico
