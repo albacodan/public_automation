@@ -1,0 +1,23 @@
+pipeline {
+    agent {
+        label 'ansible'
+    }
+    
+    stages { 
+        stage('Extraccion datos usuarios to CSV') {
+            steps {
+                sh 'ansible-playbook -i send_mail/inventory.yml send_mail/users.yml'
+            }
+        }
+        stage('Paso de CSV a HTML') {
+            steps {
+                sh 'python3 send_mail/createtable.py'
+            }
+        }
+        stage('Envio por mail') {
+            steps {
+                sh 'python3 send_mail/sendmail.py'
+            }
+        }
+    }
+}
