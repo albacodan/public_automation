@@ -1,0 +1,10 @@
+---
+- name: Ejecutar script de Python
+  hosts: all
+  tasks:
+    - name: Copiar script de Python al servidor
+      copy:
+        src: /path/to/local_script.py
+        dest: /path/to/remote_script.py
+    - name: Ejecutar script de Python
+      command: python3 /path/to/remote_script.py

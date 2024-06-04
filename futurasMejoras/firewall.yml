@@ -1,0 +1,20 @@
+---
+- name: Configurar firewall con UFW
+  hosts: all
+  become: yes
+  tasks:
+    - name: Permitir tráfico SSH
+      ufw:
+        rule: allow
+        name: OpenSSH
+    - name: Permitir tráfico HTTP
+      ufw:
+        rule: allow
+        port: 80
+    - name: Permitir tráfico HTTPS
+      ufw:
+        rule: allow
+        port: 443
+    - name: Habilitar UFW
+      ufw:
+        state: enabled
