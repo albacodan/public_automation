@@ -2,36 +2,29 @@
 
 |   |   | 
 |---|---|
-| Nombre del pipeline | BACKUP_CONFIG_VPBX |
-| URL pipeline Jenkins | http://jenkins.italtel.es/job/IT_INTERNO/job/VOZIP/job/BACKUP_CONFIG_VPBX/ |
-| Version del pipeline |1.0  |
-| Frecuencia de ejecucion | Daily - 03:00 am |
-| Autor(es) del desarrollo  | javier.palacios@italtel.com |
-| Revisor(es) del desarrollo | carlos.moreno@italtel.com |
-| Beneficiario(s) | IT-Interno - VozIP |
-| Criticidad (Alta, Media, Baja)   | Baja |
-| Soporte (24x7, 8x5)   | 8x5 |
-| Fecha de ultima actualizacion  | 02/05/2024 |
+| Nombre de la carpeta de trabajo | TFG-DAA |
+| URL git | https://github.com/albacodan/public_automation |
+| Version del desarrollo | 1.0  |
+| Frecuencia de ejecucion | On Demand |
+| Autor(es) del desarrollo  | danielalbarranacosta610@institutodh.net |
+| Revisor(es) del desarrollo | danielalbarranacosta610@institutodh.net |
+| Beneficiario(s) | Clientes |
+| Criticidad (Alta, Media, Baja) | Media |
+| Soporte (24x7, 8x5) | 8x5 |
+| Fecha de ultima actualizacion | 04/06/2024 |
  
 # CONTEXTO
-Necesidad de Backup de la configuracion de los appliance de voz ip Vpbx
+Necesidad de creacion de diferentes automatismos para diferentes clientes. Estos automatismos de ejemplo consiste en creacion y eliminacion de grupos y usuarios, despliegue de contenedores docker de forma automatica, eliminacion de contenedores y docker, y como control de seguridad tenemos un envio via mail con informacion de los usuarios y privilegios.
   
 # DESCRIPCION
-Se realiza una llamada al API de cada Vpbx, se guarda en local y se sube a las cabinas synology tanto de Madrid como de Ciudad Real
+Se realiza diferentes automatismos para satisfacer la necesidad de un instituto, el cual necesita agilizar tareas para su aulaTIC. Este instituto necesita crear un usuario para cada uno de los equipos, tanto alumnos como profesor, con su grupo correspondiente. Se ve la necesidad de desplegar contenedores en docker de forma automatica para el uso de los mismos, sobre todo Wordpress para realizar practicas de diseño web. Como mejora a nivel de controles de seguridad se implementa un automatismo que genera informes sobre los usuarios locales de cada maquina y sus privilegios. Por ultimo se desea que al terminar el curso sea posible eliminar todo lo desplegado.
 
 # ACTUALIZACIONES
 
 
 # INFORMACION ADICIONAL
-    
-Para tener acceso a la API se ha seguido el siguiente procedimiento según la documentación oficial de Cisco:
+Implementamos las notificaciones de los estado de ejecucion de los pipelines a un chat de Microsoft Teams. De forma que se podrá estar al tanto del estado y el numero de ejecuciones realizados.
 
-DOCUMENTACION del API
-https://138.132.231.142/api/doc/legacy
-https://wiki.kalliope.com/en/latest/
+Tambien se implementa en Jenkins un sistema de roles para los usuarios, de modo que es posible dividir los permisos de lectura y ejecucion de los propios pipelines para grupos de usuario.
 
-En los fuentes encontramos 3 ficheros de configuración:
-config.ini: Con la configuracion de las rutas necesarias.
-ips_pbx.csv: Nombre e ips de las maquinas pbx.
-ips_syn.csv: Nombre, ips y ruta de las cabinas synology donde se guardan los backups.
 
