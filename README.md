@@ -20,7 +20,7 @@ Necesidad de creacion de diferentes automatismos para diferentes clientes. Estos
 Se realiza diferentes automatismos para satisfacer la necesidad de un instituto, el cual necesita agilizar tareas para su aulaTIC. Este instituto necesita crear un usuario para cada uno de los equipos, tanto alumnos como profesor, con su grupo correspondiente. Se ve la necesidad de desplegar contenedores en docker de forma automatica para el uso de los mismos, sobre todo Wordpress para realizar practicas de diseño web. Como mejora a nivel de controles de seguridad se implementa un automatismo que genera informes sobre los usuarios locales de cada maquina y sus privilegios. Por ultimo se desea que al terminar el curso sea posible eliminar todo lo desplegado.
 
 # ACTUALIZACIONES
-
+Se contempla la necesidad de que para un futuro se implementen nuevos automatismos en desarrollo (Carpeta Futuras Mejoras)
 
 # INFORMACION ADICIONAL
 Implementamos las notificaciones de los estado de ejecucion de los pipelines a un chat de Microsoft Teams. De forma que se podrá estar al tanto del estado y el numero de ejecuciones realizados.
