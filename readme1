@@ -1,0 +1,37 @@
+# INVENTARIO
+
+|   |   | 
+|---|---|
+| Nombre del pipeline | BACKUP_CONFIG_VPBX |
+| URL pipeline Jenkins | http://jenkins.italtel.es/job/IT_INTERNO/job/VOZIP/job/BACKUP_CONFIG_VPBX/ |
+| Version del pipeline |1.0  |
+| Frecuencia de ejecucion | Daily - 03:00 am |
+| Autor(es) del desarrollo  | javier.palacios@italtel.com |
+| Revisor(es) del desarrollo | carlos.moreno@italtel.com |
+| Beneficiario(s) | IT-Interno - VozIP |
+| Criticidad (Alta, Media, Baja)   | Baja |
+| Soporte (24x7, 8x5)   | 8x5 |
+| Fecha de ultima actualizacion  | 02/05/2024 |
+ 
+# CONTEXTO
+Necesidad de Backup de la configuracion de los appliance de voz ip Vpbx
+  
+# DESCRIPCION
+Se realiza una llamada al API de cada Vpbx, se guarda en local y se sube a las cabinas synology tanto de Madrid como de Ciudad Real
+
+# ACTUALIZACIONES
+
+
+# INFORMACION ADICIONAL
+    
+Para tener acceso a la API se ha seguido el siguiente procedimiento según la documentación oficial de Cisco:
+
+DOCUMENTACION del API
+https://138.132.231.142/api/doc/legacy
+https://wiki.kalliope.com/en/latest/
+
+En los fuentes encontramos 3 ficheros de configuración:
+config.ini: Con la configuracion de las rutas necesarias.
+ips_pbx.csv: Nombre e ips de las maquinas pbx.
+ips_syn.csv: Nombre, ips y ruta de las cabinas synology donde se guardan los backups.
+

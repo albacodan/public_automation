@@ -1,0 +1,231 @@
+# INVENTARIO
+
+|   |   | 
+|---|---|
+| Nombre de la carpeta de trabajo | TFG-DAA |
+| URL git | https://github.com/albacodan/public_automation |
+| URL carpeta Jenkins |  |
+| Version del pipeline |1.0  |
+| Frecuencia de ejecucion | diaria |
+| Autor(es) del desarrollo  | jose.ibanez@italtel.com |
+| Revisor(es) del desarrollo | salome.sepulveda@italtel.com |
+| Beneficiario(s) en Telefonica  | jordi.malo@telefonica.com |
+| Direccion beneficiada   | Digitalization & Customer Experience |
+| Gerencia beneficiada   | IT Resources |
+| Criticidad (Muy alta, alta, media, baja, muy baja)   | Media |
+| Soporte (24x7, 8x5)   | 8x5 |
+| Telefono para contacto de soporte   | 91 055 32 48 (operaciones) |
+| Monitorizacion con OMi (Si, No)  | Si | 
+| Fecha de ultima actualizacion  | 07/06/2024 |
+ 
+# DESCRIPCION
+El departamento de auditoria de Telxius ha solicitado tener acceso al backup de configuracion diario que se realiza de sus routers de la Red Internacional. se ha acordado transferir diariamente via ftp los ficheros de configuracion a un servidor en la red de OSS de Telxius. El area de red juzgará si el traspaso a sido correcto
+  
+# CONTEXTO
+Existe un automatismo que realiza diariamente toda la descarga de configuraciones de los equipos de red Juniper, Cisco y CiscoXR. Telxius quiere tener sus equipos descargados en un ftp.
+  
+# OBJETIVOS
+El objetivo es que Telxius tenga identificadas todas sus configuraciones en un path accesible via ftp.
+  
+# HITOS
+Fecha inicio: 30 Septiembre 2022
+
+Hito 1 - Análisis del automatismo y recogida de requisitos - 5/10/2022 -> UPDATE 17/10
+
+Hito 2 - Desarrollo de macheo de datos - 14/10/2022 -> DONE
+
+Hito 4 - Desarrollo de recogida de ficheros de conf y compresión en un zip para su envio al sftp - 21/10/2022 - DONE
+
+Hito 5 - Pruebas Unitarias - 26/10/2022
+
+Hito 6 - Pruebas UAT y E2E - 28/10/2022
+
+Hito 6 - PaP - 31/10/2022
+
+# ACTUALIZACIONES
+
+16/12/2022: 
+  - Añadida función para descargar Informe_NE_Telxius del SFTP origen. 
+  - Obtiene el informe en CSV de Host Origen (*srvmlproftp03*) y lo descarga en la carpeta local: *files/Informe_NE_Telxius.csv* 
+  - Credenciales de Jenkins con id: `3c8bbb1b-817a-43d9-a7b6-3296fc3768c1`.
+
+  
+# SOLUCION EXISTENTE
+Actualmente se realizaría manualmente utilizando el automatismo de descarga de configuraciones existente.
+   
+# ARQUITECTURA TECNICA
+
+El desarrollo se basa en dos fases:
+  - match de las configuraciones que queremos recoger
+  - compresion y envio de los archivos.
+
+Desarrollo del Script en python para generar la lista de configuraciones valida:
+
+- Match de los name de las configuraciones que queremos recoger (python):
+  - Librerías:
+    - paramiko: para la conexión con la máquina de la descarga de las configuraciones.
+    - pandas as pd: para la creación de dataframes.
+    - json: Para la creación del archivo de la lista de archivos de conf.
+
+  - def conect (hostname, port)
+
+  Esta función comprueba que la conexión a la máquina es la correcta
+
+  - def listado (comando)
+
+    - Esta función obtiene los datos deseados, dependiendo de la ruta que enviemos. Para obtener una lista de carpetas enviaremos la ruta 'cd /backups/today/' y para los listados de archivos recorreremos esta lista añadiendo la carpeta correspondiente al final del comando anterior.
+  
+  - def limpia_carpetas(lista_caretas)
+
+    - Esta función limpia la información que obtenemos en la función listado, de manera que obtenemos como resultado una lista de las carpetas en las que se encuentran todas las configuraciones, de manera que podemos diferenciarlas para obtener cada configuración con su coincidencia en el listado de Telxius:
+      
+    - Pseudocodigo:
+
+      1.- Hacemos split por \n
+
+      2.- Borramos los dos primeros datos no necesarios
+
+      3.- Creamos la lista donde vamos añadiendo cada carpeta
+
+      4.- recorremos la lista_carpetas_1, obtenida del primer split, quitamos los \r y spliteamos por un espacio. Borramos todo menos el último elemento que es el que nos interesa y añadimos el elemento a la nueva lista.
+
+      5.- Borramos el ultimo elemento de la nueva lista ya que siempre estará vacio.
+      6.- Quitamos los elementos que no nos interesan, en este caso las carpetas que contengan log o .lst.
+  
+  - def limpiar_archivos(lista_archivos)
+
+    - esta función recoge la información que resulta de enviar ejecutar la función listado que iremos limpiado. Como resultado obtendremos un listado con todas las configuraciones.
+
+    - Pseudocodigo:
+
+      1.- Hacemos un split por \n para crear una primera lista
+      
+      2.- Borramos los dos primeros elementos que son innecesarios.
+
+      3.- creamos una lista donde meteremos los elementos
+
+      4.- recoremos la primera lista, borramos los \r y creamos un split por espacio. Borramos todos los elementos de las listas y menos el último que es el que nos interesa y lo añadimos a la lista que creamos en el punto anterior.
+
+      5.-  Creamos una nueva lista para recorrer las listas de la lista y generar una única listal.
+  
+  - LÓGICA:
+
+    1.- Ingesta del csv traido desde la máquina, 10.13.34.18 y el directorio TGS-IP, para ello utilizamos el metodo de pandas read_csv, con los parametros delimiter=';', encoding= ISO-8859-1, on_bad_lines='skip' y skiprows=1. De esta manera obtenemos el dataframe con los datos.
+
+    2.- Como sólo nos interesa la columna Name, creamos una lista lista_telxius a partir de esta columna que será con la que validemos los nombres de las configuraciones.
+
+    3.- Llamos a la funcion listado con el comando cd /backups/today/ para obtener las carpetas.
+
+    4.- Llamamos a limpiar_carpetas para hacer la limpieza y obtener la lista de las mismas.
+
+    5.- Generamos list_comp_dc donde meteremos todos los archivos .conf
+
+    6.- Recorremos cada carpeta y mandamos el comando 'cd /backups/today/'+i+'/' para obtener todos los archivos de las carpetas. llamamos a la función limpia_archivos para obtener cada lista de archivos de cada carpeta.
+
+    7.- Recorremos la lista de carpetas, listamos cada archivo de cada carpeta y limpiamos con la función limpiar_archivos para ir creando las listas. Despues de obtener la lista, creamos un diccionario en el que la key será la cartpeta y el value la lista de archivos.
+
+    8.- Recorriendo los valores del diccionario, generamos otro diccioenario en el que la key será cada key del diccionario completo y las value serán las listas cruzadas con la lista_telxius, para cada una de las keys.
+
+    9.- Por último generamos a partir del diccionario_telxius un .json que recorreremos en la siguiete parte del ansible
+
+  Desarrollo del script en ansible para generar carpeta tmp, compresión de la misma y envío ftp.
+
+  Modulos, tareas:
+
+    - file:
+
+       - Creamos tarea para generar la carpeta donde guardaremos las configuraciones
+       - Creamos carpetas según los grupos del json dentro de la carpeta anteriormente creada.
+
+    - copy:
+    
+      -creamos una task que genera un bucle para ir metiendo las configuraciones en cada carpeta creada anteriormente
+    
+    - command:
+
+      - Creamos una tarea bush para generar un tgz o zip de la carpeta donde tenemos la carpeta
+
+    - command:
+
+      - Creamos tarea para enviar por ftp al servidor indicado.
+
+    - file:
+
+      - borramos archivo json, carpeta y archivo tgz.  
+  
+  
+# SOLUCIONES ALTERNATIVAS
+
+Generar un solo script python para macheo y utilizando paramiko conectarnos a los servidores para dejar las descargas
+  
+# IMPACTOS
+gplbkalhta01, máquina de las descargas de configuraciones.
+  
+# MONITORIZACION Y ALERTAS
+requiere monitorización.
+
+# PRUEBAS UNITARIAS     
+
+Prueba 1. []
+
+Probamos que en json tenemos, las carpetas correctas y dentro de cada grupo los archivos correctos.
+
+Prueba 2. []
+
+Prueba para la creación de la carpeta donde se copiaran las configuraciones.
+
+Prueba 3. []
+
+Prueba para la ingesta en la carpeta de las configuraciones que corresponden.
+
+Prueba 4. []
+
+Probamos que la carpeta se comprime de forma correcta y comprobamos que los archivos son los correctos.
+
+Prueba 5. []
+
+Probamos que se envían de forma correcta el archivo conprimido al servidor de destino.
+
+Prueba 6. []
+
+Comprobamos que se borre la carpeta después y el archivo en el servidor origen despues de enviarlo
+
+Prueba 7. []
+
+Comprobamos si el archivo que llega a destino tiene todos los archivos comprimidos.
+
+# PRUEBAS FUNCIONALES
+
+E2E y UAT
+
+Prueba 1: Ejecución manual del pipeline descarga-conf-Telxius. 
+
+  RESPUESTAS CORRECTAS: el archivo con las configuraciones que corresponden llega correctamente a destino []
+
+  RESPUESTAS INCORRECTAS: el archivo con las configuraciones que corresponden no llega correctamente a destino []
+
+Prueba 2: Comprobar que el archivo comprimido recivido es el correcto y contiene los datos correctos
+
+  RESPUESTAS CORRECTAS: El archivo contiene los datos correctos []
+
+  RESPUESTAS INCORRECTAS:  El archivo no contiene los datos correctos. []
+
+Prueba 3: Comprobación de carpeta y archivo borrado en origen
+
+  RESPUESTAS CORRECTAS: El archivo y la carpeta fueron borrados []
+
+  RESPUESTAS INCORRECTAS:  Todavía existen el archivo y la carpeta. []
+
+
+# INFORMACION ADICIONAL
+
+Importante*** para este automatismo se utiliza otro existente que realiza la descarga de configuraciones mediante SNMPv2 que se encuentra en gplbkalhta01.
+
+Durante el desarrollo del script utilizaremos el servidor proporcionado por Telxius para la pruebas: 
+
+10.30.191.78 (ruta por definir).
+
+Para producción se utilizará el siguiente servidor:
+
+10.13.34.18 y el directorio TGS-IP.
+
