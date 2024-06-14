@@ -10,6 +10,6 @@ def clean_temp_files(temp_dir, days_old):
                 os.remove(file_path)
                 print(f"Eliminado {file_path}")
 
-temp_dir = '/path/to/temp'
+temp_dir = '/home/automation/dirtemp'
 days_old = 7
 clean_temp_files(temp_dir, days_old)

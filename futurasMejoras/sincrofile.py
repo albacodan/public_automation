@@ -15,6 +15,6 @@ def sync_directories(source_dir, target_dir):
             if not os.path.exists(target_item) or not filecmp.cmp(source_item, target_item):
                 shutil.copy2(source_item, target_item)
 
-source_dir = '/path/to/source'
-target_dir = '/path/to/target'
+source_dir = '/home/automation/workspace'
+target_dir = '/home/ubuntu/workspace'
 sync_directories(source_dir, target_dir)

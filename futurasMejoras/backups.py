@@ -9,6 +9,6 @@ def backup_files(source_dirs, backup_dir):
         shutil.copytree(source, dest)
         print(f"Backup de {source} realizado en {dest}")
 
-source_dirs = ['/path/to/source1', '/path/to/source2']
-backup_dir = '/path/to/backup'
+source_dirs = ['/home/automation/workspace', '/home/automation/aulatic']
+backup_dir = '/home/automation/backups'
 backup_files(source_dirs, backup_dir)
